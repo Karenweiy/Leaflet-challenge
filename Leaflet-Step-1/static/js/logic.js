@@ -35,6 +35,14 @@ d3.json(url, function(response) {
      fillColor = 'yellow'
    } else {fillColor = 'white'};
 
+   function getColor(d){
+      return d > 5 ? "black":
+      d > 3 ? "red":
+      d > 2 ? "orange":
+      d > 1 ? "yellow":
+        "white"; 
+    }
+
     console.log('response.features[i]:', response.features[i]);
 
     L.marker([location.coordinates[1], location.coordinates[0]])
@@ -48,23 +56,19 @@ d3.json(url, function(response) {
     }).addTo(myMap);
 };
 
-var legend = L.control({position: 'bottomright'});
 
-legend.onAdd = function (myMap) {
+var legend = L.control({position: 'bottomleft'});
+ legend.onAdd = function (map) {
    var div = L.DomUtil.create('div', 'info legend'),
-    grades = [0, 1, 2, 3, 5],
-    labels = [];
-
-for (var i = 0; i < grades.length; i++) {
-    div.innerHTML +=
-      '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-      grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-  }
-
-  return div;
-};
-
-legend.addTo(myMap);
-
+     categories = [0, 1, 2, 3, 5];
+   for (var i = 0; i < categories.length; i++) {
+     div.innerHTML +=
+     '<i style="background:' + getColor(categories[i] +1) + '"></i> ' +
+     categories[i] + (categories[i + 1] ? '&ndash;' + categories[i + 1] + '<br>' : '+');
+ }
+ return div;
+ };
+ legend.addTo(myMap);
+ 
 });
 
